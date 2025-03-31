@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import { useState } from "react";
 import CourseGoalList from "./components/CourseGoalList";
 
-export type CourseGoal = {
+export type CourseGoal = {  //with export we can use this type in all the application
   title: string;
   description: string;
   id: number;
@@ -27,13 +27,18 @@ function App() {
     });
   }
 
+  function handleDeleteGoal(id: number) {
+    setGoals((prevGoals) => 
+      prevGoals.filter((goal) => goal.id !== id)); //Returns a new array without the goal with the given id
+  }
+
   return (
     <div style={{ backgroundColor: "gray" }}>
       <Header image={{ src: goalsImg, alt: "A list of goals" }}>
         <h1>Course Goals</h1>
       </Header>
       <button onClick={handleAddGoal}>Add goal</button>
-      <CourseGoalList goals={goals} />
+      <CourseGoalList goals={goals} onDeleteGoal={handleDeleteGoal} />
     </div>
   );
 }

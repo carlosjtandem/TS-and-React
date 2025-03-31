@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-type HeaderProps = {
+type HeaderProps = {  //This is a way to define the typed props 
   image: {
     src: string;
     alt: string;

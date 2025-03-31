@@ -1,4 +1,4 @@
-import { FC, type PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 
 //first appoach
 // type CourseGoalProps = {
@@ -24,17 +24,25 @@ import { FC, type PropsWithChildren } from "react";
 // }
 
 //Below another way to create the component
-type CourseGoalPropsv2 = PropsWithChildren<{ title: string }>;
+type CourseGoalProps = PropsWithChildren<{
+  id: number;
+  title: string;
+  onDelete: (id: number) => void; //This is a function that takes an id as an argument and returns void.
+}>;
 
-const CourseGoal_v2: FC<CourseGoalPropsv2> = ({ title, children }) => {
+export default function CourseGoal({
+  title,
+  id,
+  children,
+  onDelete,
+}: CourseGoalProps) {
   return (
     <article>
       <div>
         <h2>{title}</h2>
         <h3>{children}</h3>
       </div>
-      <button>DELETE</button>
+      <button onClick={() => onDelete(id)}> DELETE</button>
     </article>
   );
-};
-export default CourseGoal_v2; //This is the way to export the component in the same line as the function declaration
+}
