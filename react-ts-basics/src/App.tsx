@@ -3,8 +3,10 @@ import goalsImg from "./assets/react.svg";
 import Header from "./components/Header";
 import { useState } from "react";
 import CourseGoalList from "./components/CourseGoalList";
+import NewGoal from "./components/NewGoal";
 
-export type CourseGoal = {  //with export we can use this type in all the application
+export type CourseGoal = {
+  //with export we can use this type in all the application
   title: string;
   description: string;
   id: number;
@@ -28,8 +30,7 @@ function App() {
   }
 
   function handleDeleteGoal(id: number) {
-    setGoals((prevGoals) => 
-      prevGoals.filter((goal) => goal.id !== id)); //Returns a new array without the goal with the given id
+    setGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id)); //Returns a new array without the goal with the given id
   }
 
   return (
@@ -37,6 +38,7 @@ function App() {
       <Header image={{ src: goalsImg, alt: "A list of goals" }}>
         <h1>Course Goals</h1>
       </Header>
+      <NewGoal />
       <button onClick={handleAddGoal}>Add goal</button>
       <CourseGoalList goals={goals} onDeleteGoal={handleDeleteGoal} />
     </div>
