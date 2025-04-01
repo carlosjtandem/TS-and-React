@@ -14,7 +14,7 @@ export type CourseGoal = {
 
 function App() {
   // const [goals, setGoals] = useState([]);  // common use, in this case the goals is an array of objects
-  const [goals, setGoals] = useState<CourseGoal[]>([]);
+  const [goals, setGoals] = useState<CourseGoal[]>([]); //[] it's necesary
 
   function handleAddGoal(goal: string, summary: string) {
     console.log("Add goal");
@@ -34,14 +34,16 @@ function App() {
   }
 
   return (
-    <div style={{ backgroundColor: "gray" }}>
+    <article>
       <Header image={{ src: goalsImg, alt: "A list of goals" }}>
         <h1>Course Goals</h1>
       </Header>
-      <NewGoal onAddGoal={handleAddGoal}/>
+      <NewGoal onAddGoal={handleAddGoal} />
       {/* <button onClick={handleAddGoal}>Add goal</button> */}
-      <CourseGoalList goals={goals} onDeleteGoal={handleDeleteGoal} />
-    </div>
+      <div className="component-grid">
+        <CourseGoalList goals={goals} onDeleteGoal={handleDeleteGoal} />
+      </div>
+    </article>
   );
 }
 

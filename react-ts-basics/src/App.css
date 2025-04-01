@@ -40,3 +40,24 @@
 .read-the-docs {
   color: #888;
 }
+
+.goal-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 20px; /* Spacing between items */
+  list-style: none;
+  padding: 0;
+}
+
+/* Responsive adjustments (optional) */
+@media (max-width: 900px) {
+  .goal-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .goal-list {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
+}
