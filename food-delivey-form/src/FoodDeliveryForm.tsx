@@ -1,18 +1,25 @@
 import { Form, useForm } from "react-hook-form";
+import { TextField } from "./controls/TextField";
 
 type FoodDeliveryFormType = {
   costumerName: string;
   mobile: string;
   email: string;
+  orderNo: number;
 };
 
 export default function FoodDeliveryForm() {
-  const { register, handleSubmit, formState } = useForm<FoodDeliveryFormType>({
-     mode: "onChange",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FoodDeliveryFormType>({
+    mode: "onChange",
     criteriaMode: "all",
     defaultValues: {
-      costumerName: "DefaultVAlue",
-      mobile: "8383",
+      orderNo: new Date().valueOf(),
+      costumerName: "",
+      mobile: "",
       email: "",
     },
   }); // register: conecta los inputs al formulario, handleSubmit: Maneja el envío del formulario.
@@ -21,54 +28,61 @@ export default function FoodDeliveryForm() {
     console.log("form-data:", formData);
   };
 
-  const onError = (errors) => {
+  const onError = (errors: unknown) => {
     console.log("validation errors", errors);
   };
   return (
-    <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
-      <div className="form-floating mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Customer Name"
-          {...register("costumerName", {
-            required: "Customer name is required",
-          })}
-        />
-        <label>Email address</label>
+    <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit, onError)}>
+      {/* Reusable component */}
+      <div className="row mb-2">
+        <div className="col">
+          <TextField disabled label="·Order No." {...register("orderNo")} />
+        </div>
+
+        <div className="col">
+          <TextField
+            label="Mobile"
+            {...register("mobile", {
+              minLength: { value: 9, message: "min length should be 9" },
+              maxLength: { value: 9, message: "min length should be 9" },
+              required: "This field is required.",
+            })}
+            error={errors.mobile}
+          />
+        </div>
       </div>
-      <div className="form-floating mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Mobile"
-          {...register("mobile", {
-            minLength: { value: 5, message: "min length should be 5" },
-            required: { value: true, message: "Mobile is required" },
-          })}
-        />
-        <label>Mobile</label>
-        {formState.errors.mobile && (
-          <div className="error-feedback">{formState.errors.mobile?.message}</div>
-        )}
-      </div>
-      <div className="form-floating mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Email"
-          {...register("email", {
-            pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "Enter a valid email",
-            },
-            required: true,
-          })}
-        />
-        <label>Email</label>
-        {formState.errors.email && (
-          <div className="error-feedback">{formState.errors.email?.message}</div>
-        )}
+
+      <div className="row mb-2">
+        <div className="col">
+          <TextField
+            label="Customer Name"
+            {...register("costumerName", {
+              required: "Customer name is required",
+            })}
+            error={errors.costumerName}
+          />
+        </div>
+        <div className="col">
+          <TextField
+            label="Email"
+            // placeholder="Email"
+            {...register("email", {
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Incorrect email format.",
+              },
+              validate: {
+                notFake: (value) => {
+                  return value != "email@gmail.com" || "This email is block";
+                  // if (value == "email@gmail.com") return "This email is block";
+                  // else return true;
+                },
+              },
+              required: true,
+            })}
+            error={errors.email}
+          />
+        </div>
       </div>
 
       <button type="submit" className="btn btn-primary">
