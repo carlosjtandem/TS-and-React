@@ -1,72 +1,41 @@
-import { ChangeEvent, SyntheticEvent, useState } from "react";
+import { useForm } from "react-hook-form";
 
 type FoodDeliveryFormType = {
   costumerName: string;
   mobile: string;
 };
 
-type FoodDeliveryFoodErrorType = {
-  costumerName: string;
-  mobile: string;
-};
-
 export default function FoodDeliveryForm() {
-  const [values, setValues] = useState<FoodDeliveryFormType>({
-    costumerName: "",
-    mobile: "",
-  });
+  const { register, handleSubmit } = useForm<FoodDeliveryFormType>();
 
-  const [errors, setErrors] = useState<FoodDeliveryFoodErrorType>({
-    costumerName: "",
-    mobile: "",
-  });
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+  const onSubmit = (formData: FoodDeliveryFormType) => {
+    console.log("form-data:", formData);
   };
 
-  const validateFormData = () => {
-    const temporaryErrors: FoodDeliveryFoodErrorType = {
-      costumerName: "",
-      mobile: "",
-    };
-    if (values.costumerName == "")
-      temporaryErrors.costumerName = "Customer name is required";
-
-    if (values.mobile == "") temporaryErrors.mobile = "Mobile number is required";
-    setErrors(temporaryErrors);
-
-    return Object.values(temporaryErrors).every((x) => x == "");
-  };
-
-  const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateFormData()) console.log("form-data:", values);
-    else console.log("Form is invalid");
-    
+  const onError = (errors) => {
+    console.log("validation errors", errors);
   };
   return (
-    <form autoComplete="off" onSubmit={onSubmit}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
       <div className="form-floating mb-3">
         <input
           type="text"
-          name="costumerName" //should be the same as the type
           className="form-control"
           placeholder="Customer Name"
-          value={values.costumerName}
-          onChange={handleInputChange}
+          {...register("costumerName", {
+            required: "Customer name is required",
+          })}
         />
         <label>Email address</label>
       </div>
       <div className="form-floating mb-3">
         <input
           type="text"
-          name="mobile" //should be the same as the type
           className="form-control"
           placeholder="Mobile"
-          value={values.mobile}
-          onChange={handleInputChange}
+          {...register("mobile", {
+            required: "Mobile is required",
+          })}
         />
         <label>Mobile</label>
       </div>
