@@ -66,3 +66,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.error-feedback{
+  width:100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: rgb(182, 62, 62);
+}
