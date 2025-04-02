@@ -6,6 +6,8 @@ type FoodDeliveryFormType = {
   mobile: string;
   email: string;
   orderNo: number;
+  paymentMethod: string;
+  deliveryIn: number;
 };
 
 export default function FoodDeliveryForm() {
@@ -21,6 +23,8 @@ export default function FoodDeliveryForm() {
       costumerName: "",
       mobile: "",
       email: "",
+      paymentMethod: "",
+      deliveryIn: 0,
     },
   }); // register: conecta los inputs al formulario, handleSubmit: Maneja el envío del formulario.
 
@@ -32,7 +36,11 @@ export default function FoodDeliveryForm() {
     console.log("validation errors", errors);
   };
   return (
-    <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit, onError)}>
+    <form
+      autoComplete="off"
+      noValidate
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
       {/* Reusable component */}
       <div className="row mb-2">
         <div className="col">
@@ -84,7 +92,22 @@ export default function FoodDeliveryForm() {
           />
         </div>
       </div>
-
+      <div className="row mb-2">
+        <div className="col">
+          <select
+            className="form-select"
+            {...register("paymentMethod", {
+              required: "paymentMethod is required",
+            })}
+          >
+            <option value="">Select</option>
+            <option value="online">Paid online</option>
+            <option value="COD">Cash on delivery</option>
+          </select>
+          <label>Payment method</label>
+        </div>
+        <div className="col">dropdown2</div>
+      </div>
       <button type="submit" className="btn btn-primary">
         Submit
       </button>

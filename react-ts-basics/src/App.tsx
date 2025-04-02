@@ -34,8 +34,8 @@ function App() {
   }
 
   return (
-    <article>
-      <Header image={{ src: goalsImg, alt: "A list of goals" }}>
+    <article className="articleStyle">
+      <Header  image={{ src: goalsImg, alt: "A list of goals" }}>
         <h1>Course Goals</h1>
       </Header>
       <NewGoal onAddGoal={handleAddGoal} />

@@ -61,3 +61,7 @@
     grid-template-columns: 1fr; /* 1 column on mobile */
   }
 }
+.articleStyle{
+  background-color: darkslategrey;
+  width: 600px;
+}
