@@ -3,6 +3,7 @@ import { CheckoutForm } from "./components/CheckoutForm";
 import { FoodDeliveryFormType } from "../../types";
 import { DeliveryAdressForm } from "./components/DeliveryAdressForm";
 import { FoodDeliveryMaster } from "./components/FoodDeliveryMaster";
+import { SubmitButton } from "../../controls/SubmitButton";
 
 //This is an standalone component, so I can use it in other components.
 export const FoodDeliveryForm = () => {
@@ -28,9 +29,13 @@ export const FoodDeliveryForm = () => {
 
   const {
     handleSubmit,
+    formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = (formData: FoodDeliveryFormType) => {
+  const onSubmit = async (formData: FoodDeliveryFormType) => {
+    //Timeout with async function to simulate a server request.
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     console.log("form-data:", formData);
   };
 
@@ -53,9 +58,11 @@ export const FoodDeliveryForm = () => {
         <DeliveryAdressForm />
       </FormProvider>
 
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <SubmitButton
+        value="Submit"
+        className="btn-primary"
+        isSubmitting={isSubmitting} //isSubmitting: is a boolean that indicates if the form is being submitted or not.
+      />
     </form>
   );
 };
