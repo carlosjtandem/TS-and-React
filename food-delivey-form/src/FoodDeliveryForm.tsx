@@ -1,5 +1,7 @@
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { TextField } from "./controls/TextField";
+import { Select } from "./controls/Select";
+import { SelectOptionType } from "./types";
 
 type FoodDeliveryFormType = {
   costumerName: string;
@@ -9,6 +11,19 @@ type FoodDeliveryFormType = {
   paymentMethod: string;
   deliveryIn: number;
 };
+
+const paymentsOptions: SelectOptionType[] = [
+  { value: "", text: "Select" },
+  { value: "online", text: "Paid online" },
+  { value: "COD", text: "Cash on delivery" },
+];
+
+const deliveryInOptions: SelectOptionType[] = [
+  { value: 0, text: "Select" },
+  { value: 30, text: "30 minutes" }, // In this case the value is a number, so I have to define the type of the value in the SelectOptionType
+  { value: 60, text: "1 hour" },
+  { value: 120, text: "2 hours" },
+];
 
 export default function FoodDeliveryForm() {
   const {
@@ -94,20 +109,28 @@ export default function FoodDeliveryForm() {
       </div>
       <div className="row mb-2">
         <div className="col">
-          <select
-            className="form-select"
+          <Select
+            label="Payment method"
+            options={paymentsOptions}
             {...register("paymentMethod", {
-              required: "paymentMethod is required",
+              required: "This field is required",
             })}
-          >
-            <option value="">Select</option>
-            <option value="online">Paid online</option>
-            <option value="COD">Cash on delivery</option>
-          </select>
-          <label>Payment method</label>
+            error={errors.paymentMethod}
+          />
         </div>
-        <div className="col">dropdown2</div>
+
+        <div className="col">
+          <Select
+            label="Delivery time"
+            options={deliveryInOptions}
+            {...register("deliveryIn", {
+              required: "This field is required",
+            })}
+            error={errors.deliveryIn}
+          />
+        </div>
       </div>
+
       <button type="submit" className="btn btn-primary">
         Submit
       </button>
