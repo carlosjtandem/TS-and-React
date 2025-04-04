@@ -10,6 +10,12 @@ type FoodDeliveryFormType = {
   orderNo: number;
   paymentMethod: string;
   deliveryIn: number;
+  address: {
+    streetAddress?: string;
+    city?: string;
+    state?: string;
+    landmark?: string;
+  };
 };
 
 const paymentsOptions: SelectOptionType[] = [
@@ -40,6 +46,12 @@ export default function FoodDeliveryForm() {
       email: "",
       paymentMethod: "",
       deliveryIn: 0,
+      address: {
+        streetAddress: "",
+        city: "",
+        state: "",
+        landmark: "",
+      },
     },
   }); // register: conecta los inputs al formulario, handleSubmit: Maneja el envío del formulario.
 
@@ -59,7 +71,12 @@ export default function FoodDeliveryForm() {
       {/* Reusable component */}
       <div className="row mb-2">
         <div className="col">
-          <TextField disabled label="·Order No." {...register("orderNo")} />
+          <TextField
+            error={undefined}
+            disabled
+            label="·Order No."
+            {...register("orderNo")}
+          />
         </div>
 
         <div className="col">
@@ -107,6 +124,9 @@ export default function FoodDeliveryForm() {
           />
         </div>
       </div>
+      <div>List of ordered food items</div>
+      <div className="text-start fw-bold mt-4 mb-2">Checkout details</div>
+
       <div className="row mb-2">
         <div className="col">
           <Select
@@ -127,6 +147,51 @@ export default function FoodDeliveryForm() {
               required: "This field is required",
             })}
             error={errors.deliveryIn}
+          />
+        </div>
+      </div>
+
+      {/* div.row.mb-3*2 */}
+      <div className="text-start fw-bold mt-4 mb-2">Delivery Address</div>
+      <div className="row mb-3">
+        <div className="col">
+          <TextField
+            label="Street address"
+            {...register("address.streetAddress", {
+              required: "Street address is mandatory",
+            })}
+            error={errors.address?.streetAddress}
+          />
+        </div>
+
+        <div className="col">
+          <TextField
+            label="City"
+            {...register("address.city", {
+              required: "City is mandatory",
+            })}
+            error={errors.address?.city}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-3">
+        <div className="col">
+          <TextField
+            label="State"
+            {...register("address.state", {
+              required: "State is mandatory",
+            })}
+            error={errors.address?.state}
+          />
+        </div>
+        <div className="col">
+          <TextField
+            label="Landmark"
+            {...register("address.landmark", {
+              required: "Landmark is mandatory",
+            })}
+            error={errors.address?.landmark}
           />
         </div>
       </div>
