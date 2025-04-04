@@ -1,59 +1,38 @@
-import { useForm } from "react-hook-form";
+import {
+  FormProvider,
+  useForm,
+  UseFormReturn,
+} from "react-hook-form";
 import { TextField } from "./controls/TextField";
-import { Select } from "./controls/Select";
-import { SelectOptionType } from "./types";
+import { CheckoutForm } from "./CheckoutForm";
+import { FoodDeliveryFormType } from "./types";
 
-type FoodDeliveryFormType = {
-  costumerName: string;
-  mobile: string;
-  email: string;
-  orderNo: number;
-  paymentMethod: string;
-  deliveryIn: number;
-  address: {
-    streetAddress?: string;
-    city?: string;
-    state?: string;
-    landmark?: string;
-  };
-};
+export const FoodDeliveryForm = () => {
+  const methods: UseFormReturn<FoodDeliveryFormType> =
+    useForm<FoodDeliveryFormType>({
+      mode: "onChange",
+      criteriaMode: "all",
+      defaultValues: {
+        orderNo: new Date().valueOf(),
+        costumerName: "",
+        mobile: "",
+        email: "",
+        paymentMethod: "",
+        deliveryIn: 0,
+        address: {
+          streetAddress: "",
+          city: "",
+          state: "",
+          landmark: "",
+        },
+      },
+    }); // register: conecta los inputs al formulario, handleSubmit: Maneja el envío del formulario.
 
-const paymentsOptions: SelectOptionType[] = [
-  { value: "", text: "Select" },
-  { value: "online", text: "Paid online" },
-  { value: "COD", text: "Cash on delivery" },
-];
-
-const deliveryInOptions: SelectOptionType[] = [
-  { value: 0, text: "Select" },
-  { value: 30, text: "30 minutes" }, // In this case the value is a number, so I have to define the type of the value in the SelectOptionType
-  { value: 60, text: "1 hour" },
-  { value: 120, text: "2 hours" },
-];
-
-export default function FoodDeliveryForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FoodDeliveryFormType>({
-    mode: "onChange",
-    criteriaMode: "all",
-    defaultValues: {
-      orderNo: new Date().valueOf(),
-      costumerName: "",
-      mobile: "",
-      email: "",
-      paymentMethod: "",
-      deliveryIn: 0,
-      address: {
-        streetAddress: "",
-        city: "",
-        state: "",
-        landmark: "",
-      },
-    },
-  }); // register: conecta los inputs al formulario, handleSubmit: Maneja el envío del formulario.
+  } = methods;
 
   const onSubmit = (formData: FoodDeliveryFormType) => {
     console.log("form-data:", formData);
@@ -125,31 +104,11 @@ export default function FoodDeliveryForm() {
         </div>
       </div>
       <div>List of ordered food items</div>
-      <div className="text-start fw-bold mt-4 mb-2">Checkout details</div>
-
-      <div className="row mb-2">
-        <div className="col">
-          <Select
-            label="Payment method"
-            options={paymentsOptions}
-            {...register("paymentMethod", {
-              required: "This field is required",
-            })}
-            error={errors.paymentMethod}
-          />
-        </div>
-
-        <div className="col">
-          <Select
-            label="Delivery time"
-            options={deliveryInOptions}
-            {...register("deliveryIn", {
-              required: "This field is required",
-            })}
-            error={errors.deliveryIn}
-          />
-        </div>
-      </div>
+      <FormProvider {...methods}>
+        {" "}
+        {/*WE are defining the methods in the FormProvider, so we can use it in the CheckoutForm component. */}
+        <CheckoutForm />
+      </FormProvider>
 
       {/* div.row.mb-3*2 */}
       <div className="text-start fw-bold mt-4 mb-2">Delivery Address</div>
@@ -201,4 +160,4 @@ export default function FoodDeliveryForm() {
       </button>
     </form>
   );
-}
+};
