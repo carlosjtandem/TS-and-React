@@ -1,24 +1,24 @@
 export type FoodDeliveryFormType = {
-  address: DeliveryAdressFromType; // This is a nested object, so I have to define the type of the address in the FoodDeliveryFormType
-} & CheckoutFormType & FoodDeliveryMasterType; // I can use the & operator to combine multiple types into one type.
+  address: DeliveryAdressFormType; // This is a nested object, so I have to define the type of the address in the FoodDeliveryFormType
+} & CheckoutFormType & FoodDeliveryMasterFormType; // I can use the & operator to combine multiple types into one type.
 
-type CheckoutFormType = {
+export type CheckoutFormType = {
   paymentMethod: string;
   deliveryIn: number;
 };
 
-export type DeliveryAdressFromType = {
-  streetAddress: string;
-  city: string;
-  state: string;
-  landmark: string;
-};
-
-export type FoodDeliveryMasterType = {
+export type FoodDeliveryMasterFormType = {
   costumerName: string;
   mobile: string;
   email: string;
   orderNo: number;
+};
+
+export type DeliveryAdressFormType = {
+  streetAddress: string;
+  city: string;
+  state: string;
+  landmark: string;
 };
 
 export type SelectOptionType =

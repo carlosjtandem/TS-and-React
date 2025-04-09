@@ -1,15 +1,22 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import { TextField } from "../../../controls/TextField";
-import { DeliveryAdressFromType } from "../../../types";
+import { DeliveryAdressFormType } from "../../../types";
+import { useRenderCount } from "../../../hooks/useRenderCount";
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const RenderCount = useRenderCount();
 export const DeliveryAdressForm = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<{ address: DeliveryAdressFromType }>();
+  const { register } = useFormContext<{ address: DeliveryAdressFormType }>();
+
+  const { errors } = useFormState<{ address: DeliveryAdressFormType }>({
+    name:  "address", //With we will subscribe to the errors of the fields selected
+    exact: true,
+  });
+
   return (
     <>
       {/* div.row.mb-3*2 */}
+      <RenderCount />
       <div className="text-start fw-bold mt-4 mb-2">Delivery Address</div>
       <div className="row mb-3">
         <div className="col">

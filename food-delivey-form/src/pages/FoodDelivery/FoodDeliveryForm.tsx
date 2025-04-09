@@ -4,6 +4,11 @@ import { FoodDeliveryFormType } from "../../types";
 import { DeliveryAdressForm } from "./components/DeliveryAdressForm";
 import { FoodDeliveryMaster } from "./components/FoodDeliveryMaster";
 import { SubmitButton } from "../../controls/SubmitButton";
+import { useRenderCount } from "../../hooks/useRenderCount";
+
+
+// eslint-disable-next-line react-hooks/rules-of-hooks
+const RenderCount = useRenderCount();
 
 //This is an standalone component, so I can use it in other components.
 export const FoodDeliveryForm = () => {
@@ -42,27 +47,32 @@ export const FoodDeliveryForm = () => {
   const onError = (errors: unknown) => {
     console.log("validation errors", errors);
   };
+
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      onSubmit={handleSubmit(onSubmit, onError)}
-    >
-      {/* Reusable component */}
+    <>
+      
+      <form
+        autoComplete="off"
+        noValidate
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <RenderCount />
+        {/* Reusable component */}
 
-      <div>List of ordered food items</div>
-      <FormProvider {...methods}>
-        {/*WE are defining the methods in the FormProvider, so we can use it in the CheckoutForm component. */}
-        <FoodDeliveryMaster />
-        <CheckoutForm />
-        <DeliveryAdressForm />
-      </FormProvider>
+        <div>List of ordered food items</div>
+        <FormProvider {...methods}>
+          {/*WE are defining the methods in the FormProvider, so we can use it in the CheckoutForm component. */}
+          <FoodDeliveryMaster />
+          <CheckoutForm />
+          <DeliveryAdressForm />
+        </FormProvider>
 
-      <SubmitButton
-        value="Submit"
-        className="btn-primary"
-        isSubmitting={isSubmitting} //isSubmitting: is a boolean that indicates if the form is being submitted or not.
-      />
-    </form>
+        <SubmitButton
+          value="Submit"
+          // className="btn-primary"
+          isSubmitting={isSubmitting} //isSubmitting: is a boolean that indicates if the form is being submitted or not.
+        />
+      </form>
+    </>
   );
 };

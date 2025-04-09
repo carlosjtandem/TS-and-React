@@ -1,6 +1,7 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import { Select } from "../../../controls/Select";
-import { FoodDeliveryFormType, SelectOptionType } from "../../../types";
+import { CheckoutFormType, SelectOptionType } from "../../../types";
+import { useRenderCount } from "../../../hooks/useRenderCount";
 
 const paymentsOptions: SelectOptionType[] = [
   { value: "", text: "Select" },
@@ -18,10 +19,16 @@ const deliveryInOptions: SelectOptionType[] = [
 export const CheckoutForm = () => {
   const {
     register,
-    formState: { errors },
-  } = useFormContext<FoodDeliveryFormType>(); // This hook is used to access the form context, so I can use the methods of the form in the child components.
+  } = useFormContext<CheckoutFormType>(); // This hook is used to access the form context, so I can use the methods of the form in the child components.
+
+  const RenderCount = useRenderCount();
+  
+  const { errors } = useFormState<CheckoutFormType>({
+    name: ["paymentMethod", "deliveryIn"],
+  });
   return (
     <>
+     <RenderCount />
       <div className="text-start fw-bold mt-4 mb-2">Checkout details</div>
       <div className="row mb-2">
         <div className="col">
