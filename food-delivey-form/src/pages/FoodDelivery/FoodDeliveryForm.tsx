@@ -1,11 +1,14 @@
-import { FormProvider, useForm, UseFormReturn } from "react-hook-form";
+import {
+  FormProvider,
+  useForm,
+  UseFormReturn,
+} from "react-hook-form";
 import { CheckoutForm } from "./components/CheckoutForm";
 import { FoodDeliveryFormType } from "../../types";
 import { DeliveryAdressForm } from "./components/DeliveryAdressForm";
 import { FoodDeliveryMaster } from "./components/FoodDeliveryMaster";
 import { SubmitButton } from "../../controls/SubmitButton";
 import { useRenderCount } from "../../hooks/useRenderCount";
-
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const RenderCount = useRenderCount();
@@ -35,7 +38,18 @@ export const FoodDeliveryForm = () => {
   const {
     handleSubmit,
     formState: { isSubmitting },
+    watch,
   } = methods;
+
+  const watchOneParam = watch("mobile");  //To cwatch on param
+  console.log("param", watchOneParam); // This will log the value of the mobile field whenever it changes.
+
+  const someParams= watch(["mobile", "email"],{mobile:"defaultValue123",email:"defaultEmails"}); // This will log the value of the mobile and email fields whenever they change.
+  console.log(someParams); // This will log the value of the mobile and email fields whenever they change.
+  
+  const allParams = watch(); // This will log the value of all fields whenever they change.
+  console.log(allParams); // This will log the value of all fields whenever they change.
+  
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     //Timeout with async function to simulate a server request.
@@ -50,7 +64,6 @@ export const FoodDeliveryForm = () => {
 
   return (
     <>
-      
       <form
         autoComplete="off"
         noValidate
